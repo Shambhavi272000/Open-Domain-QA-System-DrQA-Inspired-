@@ -34,7 +34,7 @@ Here, contextual information of each paragraph token is extracted by concatenati
 The sequence vector hence obtained, P˜i contains Word embeddings using the 300-D Glove word embeddings(femb(pi) = E(pi) ), 
 Exact match score(fexact match(pi) = I(pi ∈ q)) which shows whether pi exactly matches to any word in the query, Token features (ftoken(pi) = (POS(pi), NER(pi), TF(pi))) to elaborate contextual properties of each token.POS(pi) gives tags to tokens which indicate the part of speech the word belongs to like adjective,verb,noun etc.NER(pi) tags classify named entities into defined categories such as person names, organizations, locations etc. Aligned question embedding(falign(pi) =∑ j ai,jE(qj )) is the attention score between each para token and question words to take into account similar but non-identical words like crow and bird. The attention score is calculated as follows: 
 
-                 ai,j = exp (α(E(pi)) · α(E(qj )))  ⁄  ∑ j  exp (α(E(pi)) · α(E(qj )))
+                 a_i,j = exp (α(E(pi)) · α(E(qj )))  ⁄  ∑_j exp (α(E(pi)) • α(E(qj )))〗
 
 ## * Question encoding :
 After obtaining the word embeddings of each word in the question only one recurrent neural network is applied to combine resulting hidden units into one single vector. 
