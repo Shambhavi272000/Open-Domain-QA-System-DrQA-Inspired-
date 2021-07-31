@@ -18,6 +18,7 @@ This job can be accomplished by combining two different tasks:
 ## MODEL
 
 In the proposed method:
+
 1.**The document retriever model** The document retriever technique used is a non-machine learning system which focuses on reading only the articles of purpose and discarding the ones out of context. The articles and questions are compared after calculating the TF-IDF weighted bag of vectors scores. The local word order information, which proves to be a very important feature for understanding the semantics of a sentence, is also preserved by using n-grams(especifically bigram counts) which are hashed using the feature hashing(unsigned murmur hash).
 
 2.**The Document reader model** is a recurrent neural network model which is an attention based deep neural network that learns to read real documents and answer complex questions with minimal prior knowledge of language structure. 
