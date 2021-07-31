@@ -18,9 +18,9 @@ This job can be accomplished by combining two different tasks:
 ## MODEL
 
 In the proposed method:
-1.The document retriever The document retriever technique used is a non-machine learning system which focuses on reading only the articles of purpose and discarding the ones out of context. The articles and questions are compared after calculating the TF-IDF weighted bag of vectors scores. The local word order information, which proves to be a very important feature for understanding the semantics of a sentence, is also preserved by using n-grams(especifically bigram counts) which are hashed using the feature hashing(unsigned murmur hash).
+1.**The document retriever model** The document retriever technique used is a non-machine learning system which focuses on reading only the articles of purpose and discarding the ones out of context. The articles and questions are compared after calculating the TF-IDF weighted bag of vectors scores. The local word order information, which proves to be a very important feature for understanding the semantics of a sentence, is also preserved by using n-grams(especifically bigram counts) which are hashed using the feature hashing(unsigned murmur hash).
 
-2.The Document reader model is a recurrent neural network model which is an attention based deep neural network that learns to read real documents and answer complex questions with minimal prior knowledge of language structure. 
+2.**The Document reader model** is a recurrent neural network model which is an attention based deep neural network that learns to read real documents and answer complex questions with minimal prior knowledge of language structure. 
 
 The working of the document reader is described as follows:
 
@@ -34,7 +34,7 @@ Here, contextual information of each paragraph token is extracted by concatenati
 The sequence vector hence obtained, P˜i contains Word embeddings using the 300-D Glove word embeddings(femb(pi) = E(pi) ), 
 Exact match score(fexact match(pi) = I(pi ∈ q)) which shows whether pi exactly matches to any word in the query, Token features (ftoken(pi) = (POS(pi), NER(pi), TF(pi))) to elaborate contextual properties of each token.POS(pi) gives tags to tokens which indicate the part of speech the word belongs to like adjective,verb,noun etc.NER(pi) tags classify named entities into defined categories such as person names, organizations, locations etc. Aligned question embedding(falign(pi) =∑ j ai,jE(qj )) is the attention score between each para token and question words to take into account similar but non-identical words like crow and bird. The attention score is calculated as follows: 
 
-                 a_i,j = exp (α(E(pi)) · α(E(qj )))  ⁄  ∑_j exp (α(E(pi)) • α(E(qj )))〗
+                 a(i,j) = exp (α(E(pi)) · α(E(qj )))  ⁄  ∑ exp (α(E(pi)) • α(E(qj )))〗
 
 ## * Question encoding :
 After obtaining the word embeddings of each word in the question only one recurrent neural network is applied to combine resulting hidden units into one single vector. 
