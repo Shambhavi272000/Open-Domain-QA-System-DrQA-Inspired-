@@ -33,13 +33,16 @@ The working of the document reader is described as follows:
 Here, contextual information of each paragraph token is extracted by concatenating each layer’s hidden units together at the end of a multi-layer bidirectional long short-term memory network (LSTM). 
 The sequence vector hence obtained, P˜i contains Word embeddings using the 300-D Glove word embeddings(femb(pi) = E(pi) ), 
 Exact match score(fexact match(pi) = I(pi ∈ q)) which shows whether pi exactly matches to any word in the query, Token features (ftoken(pi) = (POS(pi), NER(pi), TF(pi))) to elaborate contextual properties of each token.POS(pi) gives tags to tokens which indicate the part of speech the word belongs to like adjective,verb,noun etc.NER(pi) tags classify named entities into defined categories such as person names, organizations, locations etc. Aligned question embedding(falign(pi) =∑ j ai,jE(qj )) is the attention score between each para token and question words to take into account similar but non-identical words like crow and bird. The attention score is calculated as follows: 
+
                  ai,j = exp (α(E(pi)) · α(E(qj )))  ⁄  ∑ j  exp (α(E(pi)) · α(E(qj )))
 
 ## * Question encoding :
 After obtaining the word embeddings of each word in the question only one recurrent neural network is applied to combine resulting hidden units into one single vector. 
+
                                         {q1, . . . , ql} → q 
-The single vector is calculated as sum of product of each token vector and a weighted term bj.  
-                                         q = ∑j bjqi
+The single vector is calculated as sum of product of each token vector and a weighted term bj. 
+
+                                         q = ∑j bjqi 
 The term bj incorporates the importance of each question words in the following way in which w is a weight to be learnt :
 
                                          bj = exp(w · qj )/ ∑j exp(w · qj') 
@@ -47,8 +50,13 @@ The term bj incorporates the importance of each question words in the following 
 ## * Prediction Task :
 Once the relevant article is selected by the retriever, now the task is reduced to just deciding which part of the para has our desired answer. In terms of tokens, the task now is to predict the span of tokens which contains the correct answer.This is done by two different RNN classifiers which predict the start and end tokens. The probability distribution is done for each token being the start or end token by computing the similarity score of a token and the question vector.  
  
-For start token:  Pstart(i) ∝ exp (piWsq)
-For end token:  Pend(i) ∝ exp (piWeq)
+For start token:
+
+Pstart(i) ∝ exp (piWsq)
+
+For end token: 
+
+Pend(i) ∝ exp (piWeq)
 
 
 
