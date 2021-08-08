@@ -203,7 +203,7 @@ model that uses distant supervision.
 
 
 ## THE INFORMATION ON THE GITHUB STRUCTURE, FILE DESCRIPTIONS AND HOW TO RUN THE MODEL, PLEASE REFER- 
-<a> href="https://github.com/Shambhavi272000/Open-Domain-QA-System-DrQA-Inspired-/tree/main/GITHUB%20STRUCTURE"></a>
+<a> href="https://github.com/Shambhavi272000/Open-Domain-QA-System-DrQA-Inspired-/tree/main/GITHUB%20STRUCTURE"</a>
 
 
 
