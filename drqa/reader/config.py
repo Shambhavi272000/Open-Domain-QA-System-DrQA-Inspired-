@@ -1,17 +1,18 @@
+"""Architecture of the model and optimization options for DrQA document reader."""
 
 import argparse
 import logging
 
 logger = logging.getLogger(__name__)
 
-
+"""index of arguments concerned with the core model architecture."""
 MODEL_ARCHITECTURE = {
     'model_type', 'embedding_dim', 'hidden_size', 'doc_layers',
     'question_layers', 'rnn_type', 'concat_rnn_layers', 'question_merge',
     'use_qemb', 'use_in_question', 'use_pos', 'use_ner', 'use_lemma', 'use_tf'
 }
 
-
+"""index of arguments concerning with the optimizer of the model."""
 MODEL_OPTIMIZER = {
     'fix_embeddings', 'optimizer', 'learning_rate', 'momentum', 'weight_decay',
     'rnn_padding', 'dropout_rnn', 'dropout_rnn_output', 'dropout_emb',
@@ -26,7 +27,7 @@ def stringtobool(v):
 def add_model_arguments(parser):
     parser.register('type', 'bool', stringtobool)
 
-    
+    # Architecture of the model
     model = parser.add_argument_group('DrQA Reader Model Architecture')
     model.add_argument('--model-type', type=str, default='rnn',
                        help='Model architecture type')
@@ -41,7 +42,7 @@ def add_model_arguments(parser):
     model.add_argument('--rnn-type', type=str, default='lstm',
                        help='RNN type: LSTM, GRU, or RNN')
 
-    
+    # Specific details of the model
     detail = parser.add_argument_group('DrQA Reader Model Details')
     detail.add_argument('--concat-rnn-layers', type='bool', default=True,
                         help='Combine hidden states from each encoding layer')
@@ -60,7 +61,7 @@ def add_model_arguments(parser):
     detail.add_argument('--use-tf', type='bool', default=True,
                         help='Whether to use term frequency features')
 
-    
+    # Details of the optimization
     optim = parser.add_argument_group('DrQA Reader Optimization')
     optim.add_argument('--dropout-emb', type=float, default=0.4,
                        help='Dropout rate for word embeddings')
