@@ -1,3 +1,4 @@
+"""Using the complete DrQA model"""
 import math
 import torch
 import regex
@@ -16,10 +17,10 @@ from . import DEFAULTS
 
 logger = logging.getLogger(__name__)
 
-
-PROCESS_TOK = None
-PROCESS_DB = None
-PROCESS_CANDS = None
+#Using multiprocessing to access and tokenize text
+PROCESS_TOK = None   #(For tokenizing)
+PROCESS_DB = None    #(For accessing database)
+PROCESS_CANDS = None #(For finding possible answer candidates)
 
 
 def init(tokenizer_class, tokenizer_opts, db_class, db_opts, candidates=None):
@@ -40,7 +41,7 @@ def text_tokenizer(text):
     global PROCESS_TOK
     return PROCESS_TOK.tokenize(text)
 
-
+#Pipeline
 class DrQA(object):
 
 
@@ -58,6 +59,20 @@ class DrQA(object):
             db_config=None,
             ranker_config=None
     ):
+        """Descriptions of the arguments used: 
+         1. reader_model - The file containing the Document reader
+         2. embedding_file - using available pretrained embeddings other than that of the existing DocReader resources
+         3. fixed_candidates: if given, all predictions will be constrated to the set of candidates contained in the file. One entry per line.
+         4. batch_size: batch size of each group of paragraph sorted according to length while preprocessing.
+         5. cuda: to specify usage of gpu.
+         6. data_parallel: to specify usage of multile gpus.
+         7. max_loaders: maximum number of async data loading workers when reading.
+              
+         8. num_workers: number of parallel CPU processes being used
+               
+         9. db_config: config for doc db.
+         10.ranker_config: config for ranker.
+        """
        
         self.batch_size = batch_size
         self.max_loaders = max_loaders
