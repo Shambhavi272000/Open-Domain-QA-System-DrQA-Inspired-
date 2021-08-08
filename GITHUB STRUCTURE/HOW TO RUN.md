@@ -56,39 +56,7 @@ The code to convert the data from SQuAD and WebQuestions is present in scripts/c
 
 The reader directory scripts expect the datasets as a .json file where the data is arranged like SQuAD:
 
-file.json
-
-├── "data"
-
-│   └── [i]
-
-│       ├── "paragraphs"
-
-│       │   └── [j]
-
-│       │       ├── "context": "paragraph text"
-
-│       │       └── "qas"
-
-│       │           └── [k]
-
-│       │               ├── "answers"
-
-│       │               │   └── [l]
-
-│       │               │       ├── "answer_start": N
-
-│       │               │       └── "text": "answer"
-
-│       │               ├── "id": "<uuid>"
-  
-│       │               └── "question": "paragraph question?"
-  
-│       └── "title": "document id"
-  
-└── "version": 1.1
-  
-
+![image](https://user-images.githubusercontent.com/67188688/128646473-751673ba-cb41-416f-876e-9bcfd80f5d9b.png)
 
  
 # RUNNING THE DRQA AND SPECIFIC COMPONENTS OF DRQA USING THE INTERACTIVE SYSTEM
@@ -120,8 +88,17 @@ file.json
   python scripts/pipeline/interactive.py
   ```
   
+ ## USING THE INTERACTIVE MODE: 
+ 
+ Using this mode, one can directly start asking open-domain questions to wikipedia. 
+ To do so, in the command line one has to write the queries in the follwing manner: 
+ 
+  ```
+  process('How does a jellyfish function without a brain or a nervous system?')
   
-  
+  ```
+
+ 
   
     
 
