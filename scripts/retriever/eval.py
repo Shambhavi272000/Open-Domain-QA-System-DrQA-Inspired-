@@ -14,9 +14,9 @@ from functools import partial
 from drqa import retriever, tokenizers
 from drqa.retriever import utils
 
-# ------------------------------------------------------------------------------
+
 # Using Multiprocessing for the target functions listed below
-# ------------------------------------------------------------------------------
+
 
 PROCESS_TOK = None
 PROCESS_DB = None
@@ -78,9 +78,9 @@ def get_score(answer_doc, match):
     return 0
 
 
-# ------------------------------------------------------------------------------
+
 # Main function is called below
-# ------------------------------------------------------------------------------
+
 
 
 if __name__ == '__main__':
