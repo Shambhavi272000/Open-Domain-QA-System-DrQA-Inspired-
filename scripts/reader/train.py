@@ -17,10 +17,7 @@ from drqa import DATA_DIR as DRQA_DATA
 logger = logging.getLogger()
 
 
-# ------------------------------------------------------------------------------
 # Training args are as follows
-# ------------------------------------------------------------------------------
-
 
 # Defaults
 DATA_DIR = os.path.join(DRQA_DATA, 'datasets')
@@ -167,9 +164,8 @@ def default_its(args):
     return args
 
 
-# ------------------------------------------------------------------------------
 # Initalization from scratch.
-# ------------------------------------------------------------------------------
+
 
 
 def init_from_scratch(args, train_exs, dev_exs):
@@ -197,9 +193,7 @@ def init_from_scratch(args, train_exs, dev_exs):
     return model
 
 
-# ------------------------------------------------------------------------------
 # Loop for training.
-# ------------------------------------------------------------------------------
 
 
 def train(args, data_loader, model, global_stats):
@@ -340,7 +334,6 @@ def main(args):
         dev_offsets = {ex['id']: ex['offsets'] for ex in dev_exs}
         dev_answers = utils.load_answers(args.dev_json)
 
-    # --------------------------------------------------------------------------
     # MODEL
     logger.info('-' * 100)
     start_epoch = 0
@@ -394,7 +387,6 @@ def main(args):
     if args.parallel:
         model.parallelize()
 
-    # --------------------------------------------------------------------------
     # DATA ITERATORS
     # Two datasets: train and dev. If we sort by length it's faster.
     logger.info('-' * 100)
@@ -430,13 +422,11 @@ def main(args):
         pin_memory=args.cuda,
     )
 
-    # -------------------------------------------------------------------------
     # PRINT CONFIG
     logger.info('-' * 100)
     logger.info('CONFIG:\n%s' %
                 json.dumps(vars(args), indent=4, sort_keys=True))
 
-    # --------------------------------------------------------------------------
     # TRAIN/VALID LOOP
     logger.info('-' * 100)
     logger.info('Starting training...')
