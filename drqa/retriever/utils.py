@@ -14,6 +14,7 @@ def sparse_scr_save(filename, matrix, metadata=None):
     }
     np.savez(filename, **data)
 
+#Function to save and load sparse matrix
 
 def sparse_csr_load(filename):
     loader = np.load(filename, allow_pickle=True)
@@ -23,14 +24,14 @@ def sparse_csr_load(filename):
 
 
 
-
+#Hashing token using murmurhash
 
 def hash(token, num_buckets):
    
     return murmurhash3_32(token, positive=True) % num_buckets
 
 
-
+# Editing text to contain useful words 
 
 STOPWORDS = {
     'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your',
@@ -54,12 +55,12 @@ STOPWORDS = {
 
 
 def normalize(text):
-    
+    """ returning unicode encodings  """
     return unicodedata.normalize('NFD', text)
 
 
 def filter_word(text):
-    
+    """ removing punctuations,stopwords used in english language from the text"""
     text = normalize(text)
     if regex.match(r'^\p{P}+$', text):
         return True
@@ -69,6 +70,7 @@ def filter_word(text):
 
 
 def filter_ngram(gram, mode='any'):
+    """ Algorithm to classify n-gram as useful or not """
     
     filtered = [filter_word(w) for w in gram]
     if mode == 'any':
@@ -81,7 +83,7 @@ def filter_ngram(gram, mode='any'):
         raise ValueError('Invalid mode: %s' % mode)
 
 def get_field(d, field_list):
-    
+    """returns the related subfields list like file and dilename to d['file']['filename']"""
     if isinstance(field_list, str):
         return d[field_list]
     else:
