@@ -1,5 +1,5 @@
 
-"""A script to run the DrQA reader model interactively."""
+""" Creating functions for Using the DrQA reader model interactively."""
 
 import torch
 import code
@@ -48,9 +48,9 @@ if args.cuda:
     predictor.cuda()
 
 
-# ------------------------------------------------------------------------------
-# Drop in to interactive mode
-# ------------------------------------------------------------------------------
+
+# Using the interactive mode
+#A fucntion that takes as arguments documents to search and the query asked by the user.
 
 
 def process(document, question, candidates=None, top_n=1):
