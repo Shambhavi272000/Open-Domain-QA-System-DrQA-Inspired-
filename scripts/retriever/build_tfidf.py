@@ -24,9 +24,9 @@ console.setFormatter(fmt)
 logger.addHandler(console)
 
 
-# ------------------------------------------------------------------------------
+
 # Using Multiprocessing for the functions below
-# ------------------------------------------------------------------------------
+
 
 DOC2IDX = None
 PROCESS_TOK = None
@@ -51,9 +51,8 @@ def tokenize(text):
     return PROCESS_TOK.tokenize(text)
 
 
-# ------------------------------------------------------------------------------------------------------------------
-# Building article --> The word count is being done using a sparse matrix-a matrix in which majority of values are 0
-# ------------------------------------------------------------------------------------------------------------------
+# Building article --> The word count is being done using a sparse matrix (a matrix converted from a given matrix in which majority of values are 0, and only the essential data is stored)
+
 
 
 def count(ngram, hash_size, doc_id):
@@ -121,9 +120,9 @@ def get_count_matrix(args, db, db_opts):
     return count_matrix, (DOC2IDX, doc_ids)
 
 
-# ------------------------------------------------------------------------------
+
 # Transforming count matrix into different forms.
-# ------------------------------------------------------------------------------
+
 
 
 def get_tfidf_matrix(cnts):
@@ -151,9 +150,9 @@ def get_doc_freqs(cnts):
     return freqs
 
 
-# ------------------------------------------------------------------------------
+
 # Main function is called below
-# ------------------------------------------------------------------------------
+
 
 
 if __name__ == '__main__':
