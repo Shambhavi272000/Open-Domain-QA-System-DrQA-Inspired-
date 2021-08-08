@@ -64,7 +64,7 @@ PARAGRAPH CHOSEN: ... At the beginning of the 17th century the empire contained 
 
 ### OPEN-DOMAIN QA EVALUATION RESOURCES
 
-Instances of SQuAD datasets are very specific because a human annotator was asked to frame a question from a given paragraph. 
+Instances of SQuAD datasets are very specific because a human annotator was asked to frame a question from a given paragraph. These datasets only contain the QA sets and lack the reference paragraphs.  
 Other datasets,which have been developed differently and not just based on wikipedia, used for Open-domain QA evaluation are:
 
 *CuratedTREC
