@@ -1,3 +1,9 @@
+"""Ranking documents after performing ElasticSearch Index 
+Elasticsearch => Indices => Types => Documents with Properties
+Elasticsearch is a database for search engines that is able to perform lightning-fast searches because of how the data is stored. In Elasticsearch, documents are stored as 
+term-frequency vectors (a procedure known as 'inverted indexing') and the document-frequency is pre-calculated for each term."""
+
+
 import logging
 import scipy.sparse as sp
 
