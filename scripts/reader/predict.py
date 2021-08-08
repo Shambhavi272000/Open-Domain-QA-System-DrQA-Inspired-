@@ -1,10 +1,5 @@
-#!/usr/bin/env python3
-# Copyright 2017-present, Facebook, Inc.
-# All rights reserved.
-#
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
-"""A script to make and save model predictions on an input dataset."""
+
+"""Writing functions used to predict answers and save these predictions on a custom input dataset."""
 
 import os
 import time
@@ -69,9 +64,8 @@ if args.cuda:
     predictor.cuda()
 
 
-# ------------------------------------------------------------------------------
-# Read in dataset and make predictions.
-# ------------------------------------------------------------------------------
+# Reading the dataset and making predictions using the predictor function.
+
 
 
 examples = []
@@ -91,11 +85,11 @@ for i in tqdm(range(0, len(examples), args.batch_size)):
         examples[i:i + args.batch_size], top_n=args.top_n
     )
     for j in range(len(predictions)):
-        # Official eval expects just a qid --> span
+        # Official eval expects just a question id and its associated span (qid --> span)
         if args.official:
             results[qids[i + j]] = predictions[j][0][0]
 
-        # Otherwise we store top N and scores for debugging.
+        
         else:
             results[qids[i + j]] = [(p[0], float(p[1])) for p in predictions[j]]
 
