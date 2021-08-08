@@ -1,4 +1,4 @@
-
+"""Loading helpers and preprocessing of data."""
 import logging
 import numpy as np
 import unicodedata
@@ -10,7 +10,7 @@ from .vector import vectoriser
 logger = logging.getLogger(__name__)
 
 
-
+# Here we have created a dcitionary class for tokens.
 class Dictionary(object):
     NULL = '<NULL>'
     UNK = '<UNK>'
@@ -59,17 +59,16 @@ class Dictionary(object):
             self.ind2tok[index] = token
 
     def tokens(self):
-        """Get dictionary tokens.
+        """Getting tokens for dictionary.
 
-        Return all the words indexed by this dictionary, except for special
+        Returning all the words indexed by this dictionary, leaving special
         tokens.
         """
         tokens = [k for k in self.tok2ind.keys()
                   if k not in {'<NULL>', '<UNK>'}]
         return tokens
 
-
-
+# Here we have created a dataset class for SQuAD and data similar to SQuAD in pytorch.
 
 class ReaderDataset(Dataset):
 
@@ -88,8 +87,7 @@ class ReaderDataset(Dataset):
         return [(len(ex['document']), len(ex['question']))
                 for ex in self.examples]
 
-
-
+# Here a class is created which returns a batched of sorted lengths.(by document and question)
 
 class SortedBatchSampler(Sampler):
 
