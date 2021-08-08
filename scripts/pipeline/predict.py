@@ -106,7 +106,7 @@ model = os.path.splitext(os.path.basename(args.reader_model or 'default'))[0]
 basename = os.path.splitext(os.path.basename(args.dataset))[0]
 outfile = os.path.join(args.out_dir, basename + '-' + model + '-pipeline.preds')
 
-logger.info('Writing results to %s' % outfile)
+logger.info('Entering results to %s' % outfile)
 with open(outfile, 'w') as f:
     batches = [queries[i: i + args.predict_batch_size]
                for i in range(0, len(queries), args.predict_batch_size)]
