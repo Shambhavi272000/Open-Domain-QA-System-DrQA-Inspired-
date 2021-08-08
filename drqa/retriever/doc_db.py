@@ -3,6 +3,7 @@ import sqlite3
 from . import DEFAULTS
 from . import utils
 
+""" Storing the documents in sqlite database for easy access"""
 
 class DocDB(object):
     
