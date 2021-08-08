@@ -1,5 +1,5 @@
 
-"""Read Evaluate Print Loop (REPL) for the Term Frequency — Inverse Document Frequency(TFIDF) DrQA retriever module."""
+"""Read Evaluate Print Loop (REPL) for the Term Frequency — Inverse Document Frequency(TFIDF) DrQA retriever module. FUNCTIONS TO USE THE RETRIEVER MODEL IN INTERACTIVE MODE"""
 
 import argparse
 import code
@@ -22,9 +22,8 @@ logger.info('Initializing ranker...')
 ranker = retriever.get_class('tfidf')(tfidf_path=args.model)
 
 
-# -----------------------------------------------------------------------------------------------------------------------
 # Dropping to interactive mode for used for finding the cause, and hence fixing, some of the harder issues for debugging
-# -----------------------------------------------------------------------------------------------------------------------
+
 
 
 def process(query, k=1):
