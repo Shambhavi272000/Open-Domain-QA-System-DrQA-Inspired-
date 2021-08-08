@@ -1,6 +1,9 @@
+"""RNN based DrQA reader"""
 import torch
 import torch.nn as nn
 from . import layers
+
+# The proposed RNN network
 
 class RnnDocReader(nn.Module):
     RNN_TYPES = {'lstm': nn.LSTM, 'gru': nn.GRU, 'rnn': nn.RNN}
@@ -8,14 +11,14 @@ class RnnDocReader(nn.Module):
     def __init__(self, args, normalize=True):
         super(RnnDocReader, self).__init__()
         self.args = args
-
+        #generating word embeddings, padding is done by +1 to make all inputs of same length
         self.embedding = nn.Embedding(args.vocab_size,
                                       args.embedding_dim,
                                       padding_idx=0)
-
+         # Projection for attention weighted question
         if args.use_qemb:
             self.qemb_match = layers.SeqAttnMatch(args.embedding_dim)
-
+        # Size of input given to RNN: word emb + question emb + manual features
         doc_input_size = args.embedding_dim + args.num_features
         if args.use_qemb:
             doc_input_size += args.embedding_dim
