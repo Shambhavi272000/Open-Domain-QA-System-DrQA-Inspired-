@@ -20,9 +20,9 @@ console.setFormatter(fmt)
 logger.addHandler(console)
 
 
-# ------------------------------------------------------------------------------
-# Importing helper
-# ------------------------------------------------------------------------------
+
+# Importing helper functions
+
 
 
 PREPROCESS_FN = None
@@ -33,7 +33,7 @@ def init(filename):
     if filename:
         PREPROCESS_FN = import_module(filename).preprocess
 
-
+# A custom defined function to import a file as a module by specifying its path.
 def import_module(filename):
     """Import a module given a full path to the file."""
     spec = importlib.util.spec_from_file_location('doc_filter', filename)
@@ -42,9 +42,8 @@ def import_module(filename):
     return module
 
 
-# ------------------------------------------------------------------------------
 # In the following lines we are storing corpus.
-# ------------------------------------------------------------------------------
+
 
 
 def iter_files(path):
@@ -111,9 +110,8 @@ def store_contents(data_path, save_path, preprocess, num_workers=None):
     conn.close()
 
 
-# ------------------------------------------------------------------------------
 # Main function is called below.
-# ------------------------------------------------------------------------------
+
 
 
 if __name__ == '__main__':
