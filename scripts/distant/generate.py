@@ -1,13 +1,7 @@
-#!/usr/bin/env python3
-# Copyright 2017-present, Facebook, Inc.
-# All rights reserved.
-#
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
+
 """A script to generate distantly supervised training data.
 
-Using Wikipedia and available QA datasets, we search for a paragraph
-that can be used as a supporting context.
+A search operation is performed usinf available QA datasets like Wikipedia to find a paragraph which serves as a suitable reference point.
 """
 
 import argparse
@@ -35,9 +29,9 @@ from drqa.retriever import utils
 logger = logging.getLogger()
 
 
-# ------------------------------------------------------------------------------
+
 # Fetch text, tokenize + annotate
-# ------------------------------------------------------------------------------
+
 
 PROCESS_TOK = None
 PROCESS_DB = None
@@ -72,9 +66,9 @@ def nltk_entity_groups(text):
     return ner_chunks
 
 
-# ------------------------------------------------------------------------------
-# Find answer candidates.
-# ------------------------------------------------------------------------------
+
+# Finding suitable answers to return.
+
 
 
 def find_answer(paragraph, q_tokens, answer, opts):
@@ -87,11 +81,11 @@ def find_answer(paragraph, q_tokens, answer, opts):
     * The answer context match score is too low.
       - This is the unigram + bigram overlap within +/- window_sz.
     """
-    # Length check
+    # Checking for length
     if len(paragraph) > opts['char_max'] or len(paragraph) < opts['char_min']:
         return
 
-    # Answer check
+    # Checking for presence of answer 
     if opts['regex']:
         # Add group around the whole answer
         answer = '(%s)' % answer[0]
@@ -104,7 +98,7 @@ def find_answer(paragraph, q_tokens, answer, opts):
     if len(answers) == 0:
         return
 
-    # Entity check. Default tokenizer + NLTK to minimize falling through cracks
+    # Entity check for a specific named entity common in the question and paragraph.
     q_tokens, q_nltk_ner = q_tokens
     for ne in q_tokens.entity_groups():
         if ne[0] not in paragraph:
@@ -157,8 +151,8 @@ def find_answer(paragraph, q_tokens, answer, opts):
 
 
 def search_docs(inputs, max_ex=5, opts=None):
-    """Given a set of document ids (returned by ranking for a question), search
-    for top N best matching (by heuristic) paragraphs that contain the answer.
+    """Given a set of document ids (returned by ranking for a question), the function searches
+    for top N (here, N=5) best matching (by heuristic) paragraphs that may contain the answer.
     """
     if not opts:
         raise RuntimeError('Options dict must be supplied.')
@@ -224,9 +218,8 @@ def process(questions, answers, outfile, opts):
     logging.info('Finished. Total = %d' % cnt)
 
 
-# ------------------------------------------------------------------------------
 # Main & commandline options
-# ------------------------------------------------------------------------------
+
 
 
 if __name__ == "__main__":
