@@ -1,4 +1,4 @@
-
+"""DrQA Document Reader prediction functions"""
 
 import logging
 
@@ -11,7 +11,9 @@ from .model import DocReader
 from .. import tokenizers
 
 logger = logging.getLogger(__name__)
+ 
 
+ #functions to annotate and tokenize 
 
 
 
@@ -30,14 +32,22 @@ def tokenize(text):
 
 
 
-
+#Predictor class
 
 class Predictor(object):
     
-
+"""Loading a pre trained model to read the document and performing prediction directly"""
     def __init__(self, model=None, tokenizer=None, normalize=True,
                  embedding_file=None, num_workers=None):
-        
+        """
+        Description of arguments:
+            model: path to saved model file.
+            tokenizer: option string to select tokenizer class.
+            normalize: squash output score to 0-1 probabilities with a softmax.
+            embedding_file: if provided, will expand dictionary to use all
+              available pretrained vectors in this file.
+            num_workers: number of CPU processes to use to preprocess batches.
+        """
         logger.info('Initializing model...')
         self.model = DocReader.load(model or DEFAULTS['model'],
                                     normalize=normalize)
@@ -66,12 +76,12 @@ class Predictor(object):
             self.tokenizer = tokenizer_class(annotators=annotators)
 
     def predict(self, document, question, candidates=None, top_n=1):
-        
+        """function to predict only a single doc-ques pair"""
         results = self.predict_batch([(document, question, candidates,)], top_n)
         return results[0]
 
     def predict_batch(self, batch, top_n=1):
-       
+        """function to predict a group of doc-ques pair """
         documents, questions, candidates = [], [], []
         for b in batch:
             documents.append(b[0])
@@ -79,7 +89,7 @@ class Predictor(object):
             candidates.append(b[2] if len(b) == 3 else None)
         candidates = candidates if any(candidates) else None
 
-        
+       # Tokenizing the inputs,using multi-processing wherever requiered.  
         if self.workers:
             q_tokens = self.workers.map_async(tokenize, questions)
             d_tokens = self.workers.map_async(tokenize, documents)
@@ -101,12 +111,12 @@ class Predictor(object):
                 'ner': d_tokens[i].entities(),
             })
 
-       
+       #Adding tokens of documents in candidates requiered for decoding
         if candidates:
             candidates = [{'input': d_tokens[i], 'cands': candidates[i]}
                           for i in range(len(candidates))]
 
-        
+        # Building the the batches and run it through the model for predictions
         batch_exs = batchit([vectoriser(e, self.model) for e in examples])
         s, e, score = self.model.predict(batch_exs, candidates, top_n)
 
@@ -119,8 +129,9 @@ class Predictor(object):
             results.append(predictions)
         return results
 
+    #to use GPU
     def cuda(self):
         self.model.cuda()
-
+# to use CPU
     def cpu(self):
         self.model.cpu()
