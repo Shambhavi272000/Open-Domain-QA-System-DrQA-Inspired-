@@ -1,10 +1,5 @@
-#!/usr/bin/env python3
-# Copyright 2017-present, Facebook, Inc.
-# All rights reserved.
-#
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
-"""Run predictions using the full DrQA retriever-reader pipeline."""
+
+"""Using the full DrQA retriever-reader pipeline."""
 
 import torch
 import os
@@ -97,9 +92,8 @@ DrQA = pipeline.DrQA(
 )
 
 
-# ------------------------------------------------------------------------------
-# Read in dataset and make predictions
-# ------------------------------------------------------------------------------
+# Reading the dataset and making predictions
+
 
 
 logger.info('Loading queries from %s' % args.dataset)
