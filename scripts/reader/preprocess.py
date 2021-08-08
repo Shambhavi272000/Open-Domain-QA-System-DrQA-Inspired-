@@ -1,10 +1,5 @@
-#!/usr/bin/env python3
-# Copyright 2017-present, Facebook, Inc.
-# All rights reserved.
-#
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
-"""Preprocess the SQuAD dataset for training."""
+
+"""Preprocessing the SQuAD dataset in the requiered format for training."""
 
 import argparse
 import os
@@ -17,9 +12,9 @@ from multiprocessing.util import Finalize
 from functools import partial
 from drqa import tokenizers
 
-# ------------------------------------------------------------------------------
-# Tokenize + annotate.
-# ------------------------------------------------------------------------------
+
+# Tokenize articles and annotating with requiered tags like POS,NER etc.
+
 
 TOK = None
 
@@ -31,7 +26,7 @@ def init(tokenizer_class, options):
 
 
 def tokenize(text):
-    """Call the global process tokenizer on the input text."""
+    """Using the global process tokenizer. """
     global TOK
     tokens = TOK.tokenize(text)
     output = {
@@ -44,13 +39,13 @@ def tokenize(text):
     return output
 
 
-# ------------------------------------------------------------------------------
+
 # Process dataset examples
-# ------------------------------------------------------------------------------
+
 
 
 def load_the_dataset(path):
-    """Load json file and store fields separately."""
+    """Loading json file and storing fields separately in a hash map format."""
     with open(path) as f:
         data = json.load(f)['data']
     output = {'qids': [], 'questions': [], 'answers': [],
@@ -68,7 +63,7 @@ def load_the_dataset(path):
 
 
 def find_answer(offsets, begin_offset, end_offset):
-    """Match token offsets with the char begin/end offsets of the answer."""
+    """Matching token offsets with the char begin/end offsets of the answer."""
     start = [i for i, tok in enumerate(offsets) if tok[0] == begin_offset]
     end = [i for i, tok in enumerate(offsets) if tok[1] == end_offset]
     assert(len(start) <= 1)
@@ -78,7 +73,7 @@ def find_answer(offsets, begin_offset, end_offset):
 
 
 def process_dataset(data, tokenizer, workers=None):
-    """Iterate processing (tokenize, parse, etc) dataset multithreaded."""
+    """Executing the preprocessing steps(tokenize, parse, etc) on the dataset using multithreading."""
     tokenizer_class = tokenizers.get_class(tokenizer)
     make_pool = partial(Pool, workers, initializer=init)
     workers = make_pool(initargs=(tokenizer_class, {'annotators': {'lemma'}}))
@@ -122,9 +117,9 @@ def process_dataset(data, tokenizer, workers=None):
         }
 
 
-# -----------------------------------------------------------------------------
-# Commandline options
-# -----------------------------------------------------------------------------
+
+# Commandline arguments 
+
 
 
 parser = argparse.ArgumentParser()
