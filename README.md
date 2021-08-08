@@ -1,3 +1,7 @@
+The following read me contains information about a well performing model to generate short answers for factoid questions using Wikipedia articles as a knowledge base.
+
+A proposed solution for providing long answers for a given question by referring Wikipedia articles or any other trusted knowledge base, despite the hurdles in the task, is present in the folder <B>LFQA.</B> 
+
 # DrQA-Inspired-Open-Domain-QA-System
 
 ## INTRODUCTION:
