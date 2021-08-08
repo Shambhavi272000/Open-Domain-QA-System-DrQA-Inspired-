@@ -1,10 +1,5 @@
-#!/usr/bin/env python3
-# Copyright 2017-present, Facebook, Inc.
-# All rights reserved.
-#
-# This source code is licensed under the license found in the
-# LICENSE file in the root directory of this source tree.
-"""Interactive interface to full DrQA pipeline."""
+
+"""Building an Interactive interface  to use the full DrQA pipeline."""
 
 import torch
 import argparse
@@ -49,8 +44,9 @@ if args.cuda:
 else:
     logger.info('Running on CPU only.')
 
+#fetching the top 5 articles selected by the retriever 
 if args.candidate_file:
-    logger.info('Loading candidates from %s' % args.candidate_file)
+    logger.info('Fetching candidates from %s' % args.candidate_file)
     candidates = set()
     with open(args.candidate_file) as f:
         for line in f:
@@ -69,11 +65,8 @@ DrQA = pipeline.DrQA(
     db_config={'options': {'db_path': args.doc_db}},
     tokenizer=args.tokenizer
 )
-
-
-# ------------------------------------------------------------------------------
-# Drop in to interactive mode
-# ------------------------------------------------------------------------------
+ 
+# Using the interactive mode
 
 
 def process(question, candidates=None, top_n=1, n_docs=5):
@@ -87,9 +80,9 @@ def process(question, candidates=None, top_n=1, n_docs=5):
         table.add_row([i, p['span'], p['doc_id'],
                        '%.5g' % p['span_score'],
                        '%.5g' % p['doc_score']])
-    print('Top Predictions:')
+    print('Most likely Predictions:')
     print(table)
-    print('\nContexts:')
+    print('\nBackground Knowledge:')
     for p in predictions:
         text = p['context']['text']
         start = p['context']['start']
