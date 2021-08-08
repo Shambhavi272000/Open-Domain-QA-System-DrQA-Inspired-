@@ -130,7 +130,7 @@ class DrQA(object):
             split = split.strip()
             if len(split) == 0:
                 continue
-            # Maybe group paragraphs together until we hit a length limit
+            # grouping paragraphs together until we hit a length limit
             if len(curr) > 0 and curr_len + len(split) > self.GROUP_LENGTH:
                 yield ' '.join(curr)
                 curr = []
@@ -141,6 +141,7 @@ class DrQA(object):
             yield ' '.join(curr)
 
     def fetch_loader(self, data, num_loaders):
+        """ Creating a data iterator using pytorch"""
         dataset = ReaderDataset(data, self.reader)
         sampler = SortedBatchSampler(
             dataset.lengths(),
@@ -170,7 +171,8 @@ class DrQA(object):
         t0 = time.time()
         logger.info('Processing %d queries...' % len(queries))
         logger.info('Retrieving top %d docs...' % n_docs)
-
+        
+        # Ranking documents according to the queries. 
         if len(queries) == 1:
             ranked = [self.ranker.closest_docs(queries[0], k=n_docs)]
         else:
@@ -178,11 +180,14 @@ class DrQA(object):
                 queries, k=n_docs, num_workers=self.num_workers
             )
         all_docids, all_doc_scores = zip(*ranked)
-
+        
+        # Accessing document ids and getting text from the sqlite database. 
+        # Removing duplicates to increase efficiency
         flat_docids = list({d for docids in all_docids for d in docids})
         did2didx = {did: didx for didx, did in enumerate(flat_docids)}
         doc_texts = self.processes.map(get_the_text, flat_docids)
-
+        
+        #Splitting and flattening documents 
         flat_splits = []
         didx2sidx = []
         for text in doc_texts:
@@ -191,12 +196,14 @@ class DrQA(object):
             for split in splits:
                 flat_splits.append(split)
             didx2sidx[-1][1] = len(flat_splits)
-
+        
+        # Tokenizing inputs at a speed
         q_tokens = self.processes.map_async(text_tokenizer, queries)
         s_tokens = self.processes.map_async(text_tokenizer, flat_splits)
         q_tokens = q_tokens.get()
         s_tokens = s_tokens.get()
-
+        
+        #Making the input structured by grouping it into ids
         examples = []
         for qidx in range(len(queries)):
             for rel_didx, did in enumerate(all_docids[qidx]):
@@ -215,6 +222,8 @@ class DrQA(object):
                         })
 
         logger.info('Reading %d paragraphs...' % len(examples))
+        
+        
 
         result_handles = []
         num_loaders = min(self.max_loaders, math.floor(len(examples) / 1e3))
@@ -232,7 +241,8 @@ class DrQA(object):
             else:
                 handle = self.reader.predict(batch, async_pool=self.processes)
             result_handles.append((handle, batch[-1], batch[0].size(0)))
-
+            
+        #creating priority queues for top answers for each question by iterating through the prediction
         queues = [[] for _ in range(len(queries))]
         for result, ex_ids, batch_size in result_handles:
             s, e, score = result.get()
@@ -244,7 +254,7 @@ class DrQA(object):
                         heapq.heappush(queue, item)
                     else:
                         heapq.heappushpop(queue, item)
-
+         # Arranging the top predictions on the basis of similarity.
         all_predictions = []
         for queue in queues:
             predictions = []
