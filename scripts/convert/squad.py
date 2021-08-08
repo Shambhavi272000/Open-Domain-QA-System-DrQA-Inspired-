@@ -1,5 +1,4 @@
 
-# LICENSE file in the root directory of this source tree.
 """A script to convert the default SQuAD dataset to the format:
 
 '{"question": "q1", "answer": ["a11", ..., "a1i"]}'
