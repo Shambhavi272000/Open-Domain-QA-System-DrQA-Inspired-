@@ -9,5 +9,6 @@ The task involves integrating the retrieval component of open-domain QA, which i
 The ELI5 task (Fan et al., 2019) asks models to generate paragraph-length answers to open-ended questions in English that often rely on world knowledge (e.g., how do jellyfish function without brains or nervous systems?). We have a two component model: 
 
 <b> Retriever - </b> A dense retriever (“contrastive REALM” or C-REALM), which returns documents related to an input question.
+
 <b> Retriever - </b> 
 
